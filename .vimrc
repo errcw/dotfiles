@@ -71,3 +71,5 @@ function MyDiff()
   silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
 endfunction
 
+" Automatically 'go fmt' Go files before saving them
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
