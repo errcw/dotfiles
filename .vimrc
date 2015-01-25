@@ -5,6 +5,14 @@
 " Use Vim settings
 set nocompatible
 
+" Vundle
+set runtimepath+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'gmarik/Vundle.vim'
+Plugin 'fatih/vim-go'
+Plugin 'wting/rust.vim'
+call vundle#end()
+
 " Use sensible tab settings
 set tabstop=2
 set shiftwidth=2
@@ -31,9 +39,10 @@ syntax enable
 
 " Enable backups but stuff them away
 set backup
-set backupdir=~/.vim
+set backupdir=~/.vim/backup
 
 " Configure the GUI
+set guifont=Consolas:h10
 set guioptions-=T
 
 " When editing a file, always jump to the last known cursor position.
@@ -44,32 +53,3 @@ autocmd BufReadPost *
 \ if line("'\"") > 1 && line("'\"") <= line("$") |
 \   exe "normal! g`\"" |
 \ endif
-
-" Use sensible diff
-set diffexpr=MyDiff()
-function MyDiff()
-  let opt = '-a --binary '
-  if &diffopt =~ 'icase' | let opt = opt . '-i ' | endif
-  if &diffopt =~ 'iwhite' | let opt = opt . '-b ' | endif
-  let arg1 = v:fname_in
-  if arg1 =~ ' ' | let arg1 = '"' . arg1 . '"' | endif
-  let arg2 = v:fname_new
-  if arg2 =~ ' ' | let arg2 = '"' . arg2 . '"' | endif
-  let arg3 = v:fname_out
-  if arg3 =~ ' ' | let arg3 = '"' . arg3 . '"' | endif
-  let eq = ''
-  if $VIMRUNTIME =~ ' '
-    if &sh =~ '\<cmd'
-      let cmd = '""' . $VIMRUNTIME . '\diff"'
-      let eq = '"'
-    else
-      let cmd = substitute($VIMRUNTIME, ' ', '" ', '') . '\diff"'
-    endif
-  else
-    let cmd = $VIMRUNTIME . '\diff'
-  endif
-  silent execute '!' . cmd . ' ' . opt . arg1 . ' ' . arg2 . ' > ' . arg3 . eq
-endfunction
-
-" Automatically 'go fmt' Go files before saving them
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
