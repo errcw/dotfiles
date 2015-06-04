@@ -53,3 +53,10 @@ autocmd BufReadPost *
 \ if line("'\"") > 1 && line("'\"") <= line("$") |
 \   exe "normal! g`\"" |
 \ endif
+
+" Use space as the leader
+" Redefine frequent actions using the leader
+let mapleader = "\<Space>"
+vmap <Leader>y "+y
+nmap <Leader>p "+p
+nnoremap <Leader>w :w<CR>
